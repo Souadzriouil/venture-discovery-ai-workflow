@@ -1,0 +1,11 @@
+﻿# Exclure les fichiers sensibles n8n
+data/database.sqlite
+data/database.sqlite-journal
+data/credentials/*
+data/config/*
+.env
+*.log
+
+# Dossiers Docker
+node_modules/
+.docker/
