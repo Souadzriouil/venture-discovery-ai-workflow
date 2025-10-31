@@ -1,7 +1,0 @@
-# Ignorer les données sensibles et locales
-n8n_data/*
-!n8n_data/exported_workflows/
-.env
-database.sqlite
-config/
-credentials/
