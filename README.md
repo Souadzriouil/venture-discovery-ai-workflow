@@ -125,13 +125,36 @@ Each platform provides different trade-offs between performance, usability, and 
 
 ---
 
-## 📊 Example Output
+## ▶️ How to Run
 
-```json
-{
-  "idea": "AI-powered personal finance assistant",
-  "score": 8.7,
-  "market_size": "High",
-  "competition": "Medium",
-  "insight": "Strong demand driven by digital banking growth"
-}
+### 1. Clone the repository
+
+git clone https://github.com/Souadzriouil/venture-discovery-ai-workflow.git  
+cd venture-discovery-ai-workflow  
+
+---
+
+## 🧪 Use Cases
+
+- 💡 Startup idea generation  
+- 📊 Market opportunity analysis  
+- 🧠 AI-driven business strategy  
+- 🚀 Innovation automation  
+
+---
+---
+
+## 👩‍💻 Author
+
+**Souad Zriouil**  
+AI Engineer | Data Scientist | Machine Learning | NLP | LLM  
+
+📍 Settat, Morocco  
+📧 souadzriouil02@gmail.com  
+🔗 LinkedIn: www.linkedin.com/in/souad-zriouil-54b19b267  
+
+---
+
+## ⭐ Support
+
+If you like this project, don’t forget to ⭐ the repository!
