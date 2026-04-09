@@ -42,7 +42,8 @@ Traditional approaches are:
 
 ## ⚙️ System Architecture
 
-![Workflow](./pipeline.png)
+<img width="768" height="746" alt="pipeline" src="https://github.com/user-attachments/assets/a1a1eb43-ea49-4d79-b8e1-8d825d03e41a" />
+
 
 ### 🔹 Pipeline Steps
 
