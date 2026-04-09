@@ -142,7 +142,6 @@ cd venture-discovery-ai-workflow
 - 🚀 Innovation automation  
 
 ---
----
 
 ## 👩‍💻 Author
 
