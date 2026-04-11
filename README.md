@@ -114,8 +114,8 @@ This project addresses these challenges by building an **end-to-end AI pipeline*
 ### 🔹 1. Clone repository
 
 ```bash
-git clone https://github.com/Souadzriouil/venture-discovery-ai-workflow.git
-cd venture-discovery-ai-workflow
+git clone https://github.com/Souadzriouil/venture-discovery-ai-system.git
+cd venture-discovery-ai-system
 ```
 
 ---
