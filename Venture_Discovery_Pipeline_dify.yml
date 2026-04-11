@@ -1,0 +1,1649 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Venture Discovery Pipeline.
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/mistralai:0.0.4@4684c02e639dc144cb36da33bb0ae7e69ec6996c63d2a6f157f8f3264bbc24bc
+kind: app
+version: 0.3.1
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756258954578'
+        sourceType: iteration-start
+        targetType: tool
+      id: 1756258954578start-source-1756258976753-target
+      selected: false
+      source: 1756258954578start
+      sourceHandle: source
+      target: '1756258976753'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756258954578'
+        sourceType: tool
+        targetType: code
+      id: 1756258976753-source-1756260143636-target
+      selected: false
+      source: '1756258976753'
+      sourceHandle: source
+      target: '1756260143636'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756258954578'
+        sourceType: code
+        targetType: code
+      id: 1756260143636-source-1756263167783-target
+      selected: false
+      source: '1756260143636'
+      sourceHandle: source
+      target: '1756263167783'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: iteration
+      id: 1756258954578-source-1756392380654-target
+      selected: false
+      source: '1756258954578'
+      sourceHandle: source
+      target: '1756392380654'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756392380654'
+        sourceType: iteration-start
+        targetType: http-request
+      id: 1756392380654start-source-1756393517728-target
+      selected: false
+      source: 1756392380654start
+      sourceHandle: source
+      target: '1756393517728'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756392380654'
+        sourceType: http-request
+        targetType: code
+      id: 1756393517728-source-1756413564787-target
+      selected: false
+      source: '1756393517728'
+      sourceHandle: source
+      target: '1756413564787'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756479766729'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1756479766729start-source-1756479843236-target
+      selected: false
+      source: 1756479766729start
+      sourceHandle: source
+      target: '1756479843236'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756420066344'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1756420066344start-source-1756511732053-target
+      selected: false
+      source: 1756420066344start
+      sourceHandle: source
+      target: '1756511732053'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: iteration
+      id: 1756420066344-source-1756516895780-target
+      selected: false
+      source: '1756420066344'
+      sourceHandle: source
+      target: '1756516895780'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756516895780'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1756516895780start-source-1756516903849-target
+      selected: false
+      source: 1756516895780start
+      sourceHandle: source
+      target: '1756516903849'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: iteration
+      id: 1756516895780-source-1756479766729-target
+      selected: false
+      source: '1756516895780'
+      sourceHandle: source
+      target: '1756479766729'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1756479766729-source-1756519539341-target
+      selected: false
+      source: '1756479766729'
+      sourceHandle: source
+      target: '1756519539341'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1756519539341-source-1756521499281-target
+      selected: false
+      source: '1756519539341'
+      sourceHandle: source
+      target: '1756521499281'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756521499281'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1756521499281start-source-1756521522644-target
+      selected: false
+      source: 1756521499281start
+      sourceHandle: source
+      target: '1756521522644'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: end
+      id: 1756521499281-source-1756253138620-target
+      selected: false
+      source: '1756521499281'
+      sourceHandle: source
+      target: '1756253138620'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: iteration
+      id: 1756135643732-source-1756258954578-target
+      selected: false
+      source: '1756135643732'
+      sourceHandle: source
+      target: '1756258954578'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1756134717213-source-1757378963304-target
+      selected: false
+      source: '1756134717213'
+      sourceHandle: source
+      target: '1757378963304'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1757378963304-source-1756135643732-target
+      selected: false
+      source: '1757378963304'
+      sourceHandle: source
+      target: '1756135643732'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: iteration
+      id: 1756392380654-source-1756420066344-target
+      selected: false
+      source: '1756392380654'
+      sourceHandle: source
+      target: '1756420066344'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: chatInput
+          max_length: 312
+          options: []
+          required: true
+          type: paragraph
+          variable: chatInput
+      height: 89
+      id: '1756134717213'
+      position:
+        x: 839.7335705944679
+        y: -173.76821831627313
+      positionAbsolute:
+        x: 839.7335705944679
+        y: -173.76821831627313
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: devstral-small-latest
+          provider: langgenius/mistralai/mistralai
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 9d319083-3cfc-46f3-943e-672915a859bf
+          role: system
+          text: 'You are a research assistant.
+
+            Return ONLY valid JSON that matches the schema provided by the system.
+
+
+            Task:
+
+            Generate 3 focused web search queries for this topic: {{#1756134717213.chatInput#}}
+
+            Rules:
+
+            - Each item is a short search query (not a sentence).
+
+            - No numbering and no quotes.
+
+            - Respond ONLY as:
+
+            { "queries": ["query1", "query2", "query3", "query4", "query5"] }
+
+            '
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              queries:
+                items:
+                  additionalProperties: false
+                  properties: {}
+                  required: []
+                  type: object
+                maxItems: 7
+                minItems: 5
+                type: array
+            required:
+            - queries
+            type: object
+        structured_output_enabled: true
+        title: Generate Search Queries
+        type: llm
+        variables: []
+        vision:
+          configs:
+            detail: low
+            variable_selector:
+            - sys
+            - files
+          enabled: false
+      height: 89
+      id: '1756135643732'
+      position:
+        x: 1471.0903530294736
+        y: -180.70961825051597
+      positionAbsolute:
+        x: 1471.0903530294736
+        y: -180.70961825051597
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1756521499281'
+          - output
+          value_type: array[string]
+          variable: page
+        selected: false
+        title: End
+        type: end
+      height: 89
+      id: '1756253138620'
+      position:
+        x: 1738.8296561772017
+        y: 1785.2431309733097
+      positionAbsolute:
+        x: 1738.8296561772017
+        y: 1785.2431309733097
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        error_handle_mode: continue-on-error
+        height: 177
+        is_parallel: false
+        iterator_input_type: object
+        iterator_selector:
+        - '1756135643732'
+        - structured_output
+        - queries
+        output_selector:
+        - '1756263167783'
+        - urls
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1756258954578start
+        title: 'Loop: For Each Search Query'
+        type: iteration
+        width: 1000
+      height: 177
+      id: '1756258954578'
+      position:
+        x: 1814.5150925817331
+        y: -180.70961825051597
+      positionAbsolute:
+        x: 1814.5150925817331
+        y: -180.70961825051597
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 1000
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756258954578start
+      parentId: '1756258954578'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1838.5150925817331
+        y: -112.70961825051597
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        is_team_authorization: true
+        iteration_id: '1756258954578'
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: google
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: engine
+            ja_JP: engine
+            pt_BR: engine
+            zh_Hans: engine
+          llm_description: null
+          max: null
+          min: null
+          name: engine
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: q
+            ja_JP: q
+            pt_BR: q
+            zh_Hans: q
+          llm_description: null
+          max: null
+          min: null
+          name: q
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: '{{secrets.SERPAPI_API_KEY}}'
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: api_key
+            ja_JP: api_key
+            pt_BR: api_key
+            zh_Hans: api_key
+          llm_description: null
+          max: null
+          min: null
+          name: api_key
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          api_key: ''
+          engine: ''
+          q: ''
+        provider_id: e246657b-7eb1-407d-9c27-3060d2033376
+        provider_name: SerpAPI Search
+        provider_type: api
+        selected: false
+        title: serpapiSearch
+        tool_configurations: {}
+        tool_description: Google Search via SerpAPI
+        tool_label: serpapiSearch
+        tool_name: serpapiSearch
+        tool_node_version: '2'
+        tool_parameters:
+          api_key:
+            type: mixed
+            value: your_api_key_here
+          engine:
+            type: mixed
+            value: google
+          q:
+            type: mixed
+            value: '{{#1756258954578.item#}} market trends'
+        type: tool
+      height: 53
+      id: '1756258976753'
+      parentId: '1756258954578'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1942.5150925817331
+        y: -112.70961825051597
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "function main({ query, resp }) {\n  // SerpAPI returns an array; normalize\
+          \ to one object\n  const body = Array.isArray(resp) ? (resp[0] || {}) :\
+          \ (resp || {});\n  const take = (arr, n = 5) => (Array.isArray(arr) ? arr.slice(0,\
+          \ n) : []);\n\n  const organic = take(body.organic_results, 5).map(o =>\
+          \ ({\n    position: o.position,\n    title: o.title,\n    link: o.link,\n\
+          \    source: o.source || o.displayed_link || \"\",\n    snippet: o.snippet\
+          \ || \"\"\n  }));\n\n  const related = take(body.related_questions, 5).map(r\
+          \ => ({\n    question: r.question,\n    link: r.link,\n    snippet: r.snippet\
+          \ || \"\"\n  }));\n\n  const imgs = body.images_results || body.images ||\
+          \ [];\n  const images = take(imgs, 4).map(i => ({\n    title: i.title ||\
+          \ \"\",\n    link: i.link || i.source || \"\",\n    image: i.thumbnail ||\
+          \ i.original || i.image || \"\"\n  }));\n\n  // links to scrape next\n \
+          \ const urls = Array.from(new Set(\n    organic.map(o => o.link).concat(related.map(r\
+          \ => r.link))\n  )).filter(u => /^https?:\\/\\//i.test(u));\n\n  // IMPORTANT:\
+          \ return an OBJECT (not an array)\n  return {\n    result_final: { query:\
+          \ query || \"\", organic, related, images },\n    urls\n  };\n}\n"
+        code_language: javascript
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756258954578'
+        outputs:
+          result_final:
+            children: null
+            type: object
+          urls:
+            children: null
+            type: array[string]
+        selected: false
+        title: Parse SerpAPI Results
+        type: code
+        variables:
+        - value_selector:
+          - '1756258954578'
+          - item
+          value_type: string
+          variable: query
+        - value_selector:
+          - '1756258976753'
+          - json
+          value_type: array[object]
+          variable: resp
+      height: 53
+      id: '1756260143636'
+      parentId: '1756258954578'
+      position:
+        x: 432.68179288840975
+        y: 68.31820711159014
+      positionAbsolute:
+        x: 2247.1968854701427
+        y: -112.39141113892583
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "function main({ urls }) {\n  const stripFrag = s => (s || '').split('#')[0];\n\
+          \  const cleaned = (urls || []).map(s => {\n    const base = stripFrag(s);\n\
+          \    try {\n      const u = new URL(base);\n      // Remove common tracking\
+          \ params\n      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','ved','sa','gws_rd','oc','ei','usg','oq']\n\
+          \        .forEach(k => u.searchParams.delete(k));\n      return u.toString();\n\
+          \    } catch {\n      return base;\n    }\n  });\n  return { urls: Array.from(new\
+          \ Set(cleaned)) };\n}\n"
+        code_language: javascript
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756258954578'
+        outputs:
+          urls:
+            children: null
+            type: array[string]
+        selected: false
+        title: Normalize & Deduplicate URLs
+        type: code
+        variables:
+        - value_selector:
+          - '1756260143636'
+          - urls
+          value_type: array[string]
+          variable: urls
+      height: 53
+      id: '1756263167783'
+      parentId: '1756258954578'
+      position:
+        x: 734
+        y: 70
+      positionAbsolute:
+        x: 2548.5150925817334
+        y: -110.70961825051597
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        error_handle_mode: continue-on-error
+        height: 211
+        is_parallel: false
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1756258954578'
+        - output
+        output_selector:
+        - '1756413564787'
+        - page
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1756392380654start
+        title: 'Loop: For Each URL'
+        type: iteration
+        width: 847
+      height: 211
+      id: '1756392380654'
+      position:
+        x: 1403.4486699638608
+        y: 210.88257172118324
+      positionAbsolute:
+        x: 1403.4486699638608
+        y: 210.88257172118324
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 847
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756392380654start
+      parentId: '1756392380654'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1427.4486699638608
+        y: 278.88257172118324
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: ''
+        headers: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756392380654'
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 'HTTP: Fetch Web Page'
+        type: http-request
+        url: '{{#1756392380654.item#}}'
+        variables: []
+      height: 124
+      id: '1756393517728'
+      parentId: '1756392380654'
+      position:
+        x: 234.65179415028342
+        y: 65
+      positionAbsolute:
+        x: 1638.1004641141442
+        y: 275.88257172118324
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "// helpers\nfunction decodeEntities(s = \"\") {\n  const named = {\
+          \ nbsp: \" \", amp: \"&\", lt: \"<\", gt: \">\", quot: '\"', apos: \"'\"\
+          \ };\n  return String(s).replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (_, ent)\
+          \ => {\n    if (ent[0] === \"#\") {\n      const code = ent[1].toLowerCase()\
+          \ === \"x\" ? parseInt(ent.slice(2), 16) : parseInt(ent.slice(1), 10);\n\
+          \      return Number.isFinite(code) ? String.fromCharCode(code) : _;\n \
+          \   }\n    return Object.prototype.hasOwnProperty.call(named, ent) ? named[ent]\
+          \ : _;\n  });\n}\n\nfunction titleFrom(html) {\n  const m = /<title[^>]*>([\\\
+          s\\S]*?)<\\/title>/i.exec(html);\n  return m ? decodeEntities(m[1].trim())\
+          \ : \"\";\n}\n\nfunction metaContent(html, key) {\n  const re = new RegExp(`<meta[^>]+(?:name|property)=[\"\
+          ']${key}[\"'][^>]*content=[\"']([^\"']+)[\"']`, \"i\");\n  const m = re.exec(html);\n\
+          \  return m ? decodeEntities(m[1].trim()) : \"\";\n}\n\nfunction stripHtml(html)\
+          \ {\n  let h = String(html);\n  h = h.replace(/<script[^>]*>[\\s\\S]*?<\\\
+          /script>/gi, \" \");\n  h = h.replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi,\
+          \ \" \");\n  h = h.replace(/<[^>]+>/g, \" \");\n  h = h.replace(/\\s+/g,\
+          \ \" \");\n  return decodeEntities(h).trim();\n}\n\n// Dify entrypoint\n\
+          function main(inputs) {\n  const url = String(inputs.i || \"\");\n  const\
+          \ html = typeof inputs.body === \"string\" ? inputs.body : \"\";\n\n  if\
+          \ (!html.trim()) return { page: null };\n\n  const title = titleFrom(html)\
+          \ || \"\";\n  const content = stripHtml(html);\n\n  // ✅ Drop pages without\
+          \ a real title or content (adjust thresholds if you like)\n  if (!title.trim()\
+          \ || !content.trim() || content.length < 50) {\n    return { page: null\
+          \ };\n  }\n\n  // generate id (default 1 if not provided)\n  const id =\
+          \ Number(inputs.id || 1);\n\n  return {\n    page: {\n      id,\n      url,\n\
+          \      title,\n      content: content.slice(0, 8000)\n    }\n  };\n}\n"
+        code_language: javascript
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756392380654'
+        outputs:
+          page:
+            children: null
+            type: object
+        selected: false
+        title: 'Code: Extract Title & Decode HTML'
+        type: code
+        variables:
+        - value_selector:
+          - '1756392380654'
+          - item
+          value_type: string
+          variable: i
+        - value_selector:
+          - '1756393517728'
+          - body
+          value_type: string
+          variable: body
+      height: 53
+      id: '1756413564787'
+      parentId: '1756392380654'
+      position:
+        x: 539.3335868997278
+        y: 65
+      positionAbsolute:
+        x: 1942.7822568635886
+        y: 275.88257172118324
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        error_handle_mode: continue-on-error
+        height: 180
+        is_parallel: false
+        iterator_input_type: array[string]
+        iterator_selector:
+        - '1756258954578'
+        - output
+        output_selector:
+        - '1756511732053'
+        - structured_output
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1756420066344start
+        title: 'Loop: For Each Clean Page'
+        type: iteration
+        width: 347
+      height: 180
+      id: '1756420066344'
+      position:
+        x: 1634.2016311333064
+        y: 544.3497247535919
+      positionAbsolute:
+        x: 1634.2016311333064
+        y: 544.3497247535919
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 347
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756420066344start
+      parentId: '1756420066344'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1658.2016311333064
+        y: 612.3497247535919
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        desc: ''
+        error_handle_mode: continue-on-error
+        height: 177
+        is_parallel: false
+        iterator_input_type: array[object]
+        iterator_selector:
+        - '1756516895780'
+        - output
+        output_selector:
+        - '1756479843236'
+        - structured_output
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1756479766729start
+        title: 'Loop: For Each Venture Idea'
+        type: iteration
+        width: 387
+      height: 177
+      id: '1756479766729'
+      position:
+        x: 1661.5593028053115
+        y: 1121.0495331968323
+      positionAbsolute:
+        x: 1661.5593028053115
+        y: 1121.0495331968323
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 387
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756479766729start
+      parentId: '1756479766729'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1685.5593028053115
+        y: 1189.0495331968323
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756479766729'
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: mistral-small-latest
+          provider: langgenius/mistralai/mistralai
+        prompt_config:
+          jinja2_variables: []
+        prompt_template:
+        - edition_type: basic
+          id: 3e0e16e9-a586-4a51-b590-223bebbf0ef7
+          jinja2_text: "You are a market research analyst.\r\n\r\nEstimate the following\
+            \ for the startup idea below {{ item }} and return STRICT JSON that matches\
+            \ the provided schema (no markdown, no extra keys, no commentary):\r\n\
+            - TAM (Total Addressable Market) in USD as a number (no commas)\r\n- SAM\
+            \ in USD as a number\r\n- SOM in USD as a number\r\n- CAGR as a number\
+            \ (percent, e.g., 18.5)\r\n- Strategic Fit Score as a number 1–10\r\n\r\
+            \nStartup Idea\r\nID: {{ item.id }}\r\nIdea: {{ item.idea }}\r\nSummary:\
+            \ {{ item.summary }}\r\nURL: {{ item.URL }}\r\n"
+          role: system
+          text: "You are a venture strategist.\n\nTask: rank the following startup\
+            \ ideas {{#1756479766729.item#}} using a simple, transparent scoring model\
+            \ and return STRICT JSON only (no markdown, no commentary, no extra keys).\n\
+            \nInput is an array of ventures (each has: id, idea, summary, URL). DO\
+            \ NOT change or invent URLs — copy each URL exactly as provided. If a\
+            \ URL is missing in input, return an empty string for URL.\n\nScoring\
+            \ model\n- Score each idea on:\n  1) market_size (1–10): breadth and revenue\
+            \ depth suggested by the idea & summary.\n  2) market_growth (1–10): momentum\
+            \ and tailwinds (policy, tech, adoption).\n  3) strategic_fit (1–10):\
+            \ execution feasibility for a typical early-stage team (capital intensity,\
+            \ regulation, time-to-market, dependency on hard infra).\n- Compute market_viability\
+            \ = round(0.7*market_size + 0.3*market_growth, 1)   // weight inspired\
+            \ by keywords similarity weight = 0.7\n- Compute overall = round(0.7*market_viability\
+            \ + 0.3*strategic_fit, 1)\n- Keep all scores within [1, 10]. Use one decimal\
+            \ digit.\n\nOutput requirements\n- Return ventures sorted in DESC order\
+            \ by `score.overall`.\n- For each venture, output exactly: id, idea, summary,\
+            \ URL, and a `score` object:\n  { \"market_viability\": number, \"strategic_fit\"\
+            : number, \"overall\": number }\n- Do not add explanations, rationales,\
+            \ or extra properties.\n\nVentures (JSON array):\n{{#1756479766729.item#}}\n\
+            \nReturn only the JSON matching the schema.\n"
+        selected: false
+        structured_output:
+          schema:
+            additionalProperties: false
+            properties:
+              ventures:
+                items:
+                  additionalProperties: false
+                  properties:
+                    URL:
+                      type: string
+                    id:
+                      type: integer
+                    idea:
+                      type: string
+                    score:
+                      additionalProperties: false
+                      properties:
+                        market_viability:
+                          type: number
+                        overall:
+                          type: number
+                        strategic_fit:
+                          type: number
+                      required:
+                      - market_viability
+                      - strategic_fit
+                      - overall
+                      type: object
+                    summary:
+                      type: string
+                  required:
+                  - id
+                  - idea
+                  - summary
+                  - URL
+                  - score
+                  type: object
+                type: array
+            required:
+            - ventures
+            type: object
+        structured_output_enabled: true
+        title: 'LLM: Score & Rank Ventures'
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756479843236'
+      parentId: '1756479766729'
+      position:
+        x: 119.27282911239718
+        y: 66.68179274944396
+      positionAbsolute:
+        x: 1780.8321319177087
+        y: 1187.7313259462762
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756420066344'
+        model:
+          completion_params:
+            max_tokens: 4024
+            temperature: 0.3
+          mode: chat
+          name: mistral-small-latest
+          provider: langgenius/mistralai/mistralai
+        prompt_template:
+        - id: 16444b29-0cf9-4681-ab74-11caa11d2869
+          role: system
+          text: "You are a summarization assistant.\n\nTask:\nFor each input record\
+            \ in {{#1756420066344.item#}}, produce one JSON object with exactly these\
+            \ fields:\n- id: copy from input \"id\"\n- title: copy from input \"idea\"\
+            \n- summary: a concise 3–4 sentence summary of the input \"context\" field\n\
+            - url: copy from input \"url\"\n\nCleaning rules for summary:\n- Strip\
+            \ HTML tags and decode HTML entities.\n- Remove emojis, excessive punctuation,\
+            \ boilerplate, tracking text, and duplicate whitespace.\n- Keep neutral\
+            \ tone; no opinions, no new facts.\n- 3–4 sentences max. No bullets, no\
+            \ headings.\n\nOutput format requirements (STRICT):\n- Return ONLY a JSON\
+            \ array of objects, one per input item.\n- Use plain JSON: no markdown,\
+            \ no comments, no trailing commas.\n- Use double quotes for all keys/strings.\n\
+            - If any required field is missing in the input, set it to null (do NOT\
+            \ invent values).\n- Do not include any extra fields.\n\nJSON Schema (for\
+            \ your reference; do NOT print this schema):\n[\n  {\n    \"id\": <string|number|null>,\n\
+            \    \"title\": <string|null>,\n    \"summary\": <string|null>,\n    \"\
+            url\": <string|null>\n  }\n]\n\nReturn only the final JSON array."
+        selected: true
+        structured_output:
+          schema:
+            properties:
+              id:
+                description: Same id as input
+                type: number
+              summary:
+                description: Concise 3-4 sentence summary of content
+                type: string
+              title:
+                description: Same title as input
+                type: string
+              url:
+                description: Same url as input
+                type: string
+            required:
+            - id
+            - title
+            - summary
+            - url
+            type: object
+        structured_output_enabled: true
+        title: 'LLM: Summarize Articles'
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756511732053'
+      parentId: '1756420066344'
+      position:
+        x: 84.86834135285471
+        y: 65
+      positionAbsolute:
+        x: 1719.069972486161
+        y: 609.3497247535919
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 177
+        is_parallel: false
+        iterator_input_type: array[object]
+        iterator_selector:
+        - '1756420066344'
+        - output
+        output_selector:
+        - '1756516903849'
+        - structured_output
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1756516895780start
+        title: 'Loop: For Each Summary'
+        type: iteration
+        width: 387
+      height: 177
+      id: '1756516895780'
+      position:
+        x: 1634.2016311333064
+        y: 836.3041860129674
+      positionAbsolute:
+        x: 1634.2016311333064
+        y: 836.3041860129674
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 387
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756516895780start
+      parentId: '1756516895780'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1658.2016311333064
+        y: 904.3041860129674
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756516895780'
+        model:
+          completion_params:
+            max_tokens: 4024
+            temperature: 0.3
+          mode: chat
+          name: mistral-small-latest
+          provider: langgenius/mistralai/mistralai
+        prompt_template:
+        - id: 040f271f-8df0-4007-820a-32b1e8ff9ab7
+          role: system
+          text: "You are an AI venture ideation assistant.\n\nTASK\n- For each article\
+            \ {{#1756516895780.item#}} in the input list, generate ONE startup idea\
+            \ inspired by its title and summary.\n- Produce STRICT JSON with a top-level\
+            \ \"ventures\" array. One element per article.\n\nHARD RULES\n- Copy article.id\
+            \ to output.id EXACTLY (byte-for-byte).\n- Copy article.url to output.url\
+            \ EXACTLY (byte-for-byte). Do not modify, shorten, or replace it.\n- The\
+            \ output.idea must be a one-line, concrete venture concept (product/service\
+            \ + target user + key value).\n- The output.summary must be 2–4 sentences\
+            \ explaining the idea and how the article inspired it (no fluff).\n- Do\
+            \ not include any text outside the JSON.\n\nOUTPUT SHAPE\n{\n  \"ventures\"\
+            : [\n    {\n      \"id\": \"<same as article.id>\",\n      \"idea\": \"\
+            <one-line venture idea>\",\n      \"summary\": \"<2–4 sentence explanation\
+            \ of the idea and its relevance>\",\n      \"url\": \"<same as article.url>\"\
+            \n    }\n  ]\n}\n"
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              ventures:
+                items:
+                  properties:
+                    id:
+                      type: number
+                    idea:
+                      type: string
+                    summary:
+                      type: string
+                    url:
+                      format: uri
+                      type: string
+                  required:
+                  - id
+                  - idea
+                  - summary
+                  - url
+                  type: object
+                type: array
+            required:
+            - ventures
+            type: object
+        structured_output_enabled: true
+        title: 'LLM: Generate Venture Ideas'
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756516903849'
+      parentId: '1756516895780'
+      position:
+        x: 107.03052578775237
+        y: 65
+      positionAbsolute:
+        x: 1741.2321569210587
+        y: 901.3041860129674
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "function main(inputs) {\n  // 1) Be flexible about how `data` arrives\n\
+          \  let payload = inputs.data;\n  if (typeof payload === \"string\") {\n\
+          \    try { payload = JSON.parse(payload); } catch { payload = {}; }\n  }\n\
+          \n  // 2) Normalize to the array of { ventures: [...] }\n  const groups\
+          \ = Array.isArray(payload?.data)\n    ? payload.data\n    : (Array.isArray(payload)\
+          \ ? payload : []);\n\n  // 3) Flatten all ventures\n  const allVentures\
+          \ = groups.flatMap(g =>\n    Array.isArray(g?.ventures) ? g.ventures : []\n\
+          \  );\n\n  // 4) Keep only scored items and decorate with index for stable\
+          \ tie-breaking\n  const scored = allVentures\n    .filter(v => v?.score\
+          \ && !Number.isNaN(Number(v.score.overall)))\n    .map((v, i) => ({ ...v,\
+          \ __i: i }));\n\n  // 5) Sort by overall desc, then market_viability, then\
+          \ strategic_fit, then original order\n  scored.sort((a, b) => {\n    const\
+          \ byOverall = Number(b.score.overall) - Number(a.score.overall);\n    if\
+          \ (byOverall) return byOverall;\n    const byMV = Number(b.score.market_viability\
+          \ ?? -Infinity) - Number(a.score.market_viability ?? -Infinity);\n    if\
+          \ (byMV) return byMV;\n    const bySF = Number(b.score.strategic_fit ??\
+          \ -Infinity) - Number(a.score.strategic_fit ?? -Infinity);\n    if (bySF)\
+          \ return bySF;\n    return a.__i - b.__i; // stable\n  });\n\n  // 6) Take\
+          \ top 10 and restore original shape\n  const top = scored.slice(0, 10).map(({\
+          \ __i, ...v }) => v);\n\n  // Return ONLY the same form as input\n  return\
+          \ {\n    data: top.map(v => ({ ventures: [v] }))\n  };\n}\n"
+        code_language: javascript
+        desc: ''
+        outputs:
+          data:
+            children: null
+            type: array[object]
+        retry_config:
+          max_retries: 3
+          retry_enabled: false
+          retry_interval: 1000
+        selected: false
+        title: 'Code: Compute Scores & Top 10'
+        type: code
+        variables:
+        - value_selector:
+          - '1756479766729'
+          - output
+          value_type: array[object]
+          variable: data
+      height: 53
+      id: '1756519539341'
+      position:
+        x: 1753.4634665295757
+        y: 1462.968262581247
+      positionAbsolute:
+        x: 1753.4634665295757
+        y: 1462.968262581247
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        error_handle_mode: continue-on-error
+        height: 177
+        is_parallel: false
+        iterator_input_type: array[object]
+        iterator_selector:
+        - '1756519539341'
+        - data
+        output_selector:
+        - '1756521522644'
+        - structured_output
+        output_type: array[object]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1756521499281start
+        title: 'Loop: For Each Top 10 Venture'
+        type: iteration
+        width: 387
+      height: 177
+      id: '1756521499281'
+      position:
+        x: 1655.19559400948
+        y: 1554.0653748610093
+      positionAbsolute:
+        x: 1655.19559400948
+        y: 1554.0653748610093
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 387
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1756521499281start
+      parentId: '1756521499281'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1679.19559400948
+        y: 1622.0653748610093
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1756521499281'
+        model:
+          completion_params:
+            max_tokens: 4024
+            temperature: 0.3
+          mode: chat
+          name: mistral-small-latest
+          provider: langgenius/mistralai/mistralai
+        prompt_template:
+        - id: 5f8a07cb-f274-4551-9633-4ded36bd840a
+          role: system
+          text: "You are an AI venture designer.\n\nINPUT SHAPE\n- The user message\
+            \ contains JSON that may be nested like:\n  {\"output\":[{\"ventures\"\
+            :[...]}, {\"ventures\":[...]}, ...]}\n- Some ventures may have empty fields\
+            \ inside \"insights\" or \"white_space_analysis\".\n\nYOUR JOB\n1) Parse\
+            \ the entire input and collect every venture inside any \"ventures\" array.\n\
+            2) Produce ONE flat array under a single top-level key \"ventures\".\n\
+            3) DO NOT include \"timestamp\" anywhere in the output.\n4) For each venture:\n\
+            \   - Keep: id, idea, summary, score {market_viability, strategic_fit,\
+            \ overall}, Url.\n   - FILL IN ANY MISSING OR EMPTY FIELDS (no empty strings,\
+            \ no empty arrays):\n     insights.go_to_market, insights.justification,\
+            \ insights.value_proposition,\n     insights.features (3–6 items), insights.positioning,\
+            \ insights.differentiation,\n     white_space_analysis.market_gap, white_space_analysis.company_fit.\n\
+            \   - If a field exists but is empty, generate a concise, concrete, logically\
+            \ consistent value.\n   - Use the idea + summary + Url as core context;\
+            \ keep language precise and pragmatic.\n   - Avoid inventing precise NEW\
+            \ statistics unless they already appear in the input; you may use qualitative\
+            \ phrasing (e.g., “growing demand”, “high-density corridors”) or safe\
+            \ ranges (“~20%+ CAGR”) only when clearly implied.\n   - Normalize obviously\
+            \ broken URLs (e.g., fix typos like “electric-vehehicles” → “electric-vehicles”).\
+            \ If unsure, leave the Url unchanged.\n\nOUTPUT FORMAT (STRICT)\nReturn\
+            \ ONE JSON object only:\n{\n  \"ventures\": [ { ... filled venture ...\
+            \ }, ... ]\n}\n\nVALIDATION\n- No wrapper objects besides the single top-level\
+            \ {\"ventures\": [...] }.\n- No \"timestamp\" keys.\n- No empty strings\
+            \ or empty arrays in any generated section.\n- Keep sections concise (1–3\
+            \ sentences each), features as bullet strings (3–6)."
+        - id: a8fa0967-0119-4df0-960c-877b449d9b6e
+          role: user
+          text: 'Here is the raw venture JSON to transform and complete:
+
+            {{#1756521499281.item#}}'
+        selected: false
+        structured_output:
+          schema:
+            properties:
+              ventures:
+                items:
+                  properties:
+                    Url:
+                      type: string
+                    id:
+                      type:
+                      - integer
+                      - string
+                    idea:
+                      type: string
+                    insights:
+                      properties:
+                        differentiation:
+                          type: string
+                        features:
+                          items:
+                            type: string
+                          maxItems: 6
+                          minItems: 3
+                          type: array
+                        go_to_market:
+                          type: string
+                        justification:
+                          type: string
+                        positioning:
+                          type: string
+                        value_proposition:
+                          type: string
+                      required:
+                      - go_to_market
+                      - justification
+                      - value_proposition
+                      - features
+                      - positioning
+                      - differentiation
+                      type: object
+                    score:
+                      properties:
+                        market_viability:
+                          type: number
+                        overall:
+                          type: number
+                        strategic_fit:
+                          type: number
+                      required:
+                      - market_viability
+                      - strategic_fit
+                      - overall
+                      type: object
+                    summary:
+                      type: string
+                    white_space_analysis:
+                      properties:
+                        company_fit:
+                          type: string
+                        market_gap:
+                          type: string
+                      required:
+                      - market_gap
+                      - company_fit
+                      type: object
+                  required:
+                  - id
+                  - idea
+                  - summary
+                  - score
+                  - insights
+                  - white_space_analysis
+                  - Url
+                  type: object
+                type: array
+            required:
+            - ventures
+            type: object
+        structured_output_enabled: true
+        title: 'LLM: Solution Insight Generation & White-Space Analysis'
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756521522644'
+      parentId: '1756521499281'
+      position:
+        x: 124.43385917894057
+        y: 68
+      positionAbsolute:
+        x: 1779.6294531884205
+        y: 1622.0653748610093
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "function main({ raw, chatInput } = {}) {\n  const incoming = raw ??\
+          \ chatInput ?? \"\";\n\n  if (!incoming) {\n    return {\n      result:\
+          \ { error: \"empty_input\", raw: null },\n      company_name: \"\",\n  \
+          \    company_strategy: \"\",\n      company_assets: \"\",\n      focus_area:\
+          \ \"\"\n    };\n  }\n\n  // Normalize string\n  let text = typeof incoming\
+          \ === \"string\" ? incoming : String(incoming);\n  try {\n    const looksWrapped\
+          \ =\n      (text.startsWith('\"') && text.endsWith('\"')) ||\n      text.includes('\\\
+          \\\"') ||\n      text.startsWith('{\\\\');\n    if (looksWrapped) text =\
+          \ JSON.parse(text);\n  } catch {}\n\n  // Parse JSON\n  let parsed;\n  try\
+          \ {\n    parsed = JSON.parse(text);\n  } catch (e) {\n    parsed = { error:\
+          \ \"invalid_json\", message: e.message, raw: text };\n  }\n\n  const c =\
+          \ parsed.company || {};\n  return {\n    result: parsed,\n    company_name:\
+          \ String(c.name || \"\"),\n    company_strategy: String(c.strategy || \"\
+          \"),\n    company_assets: String(c.assets || \"\"),\n    focus_area: String(parsed.focus_area\
+          \ || \"\")\n  };\n}\n"
+        code_language: javascript
+        desc: ''
+        outputs:
+          company_assets:
+            children: null
+            type: string
+          company_name:
+            children: null
+            type: string
+          company_strategy:
+            children: null
+            type: string
+          focus_area:
+            children: null
+            type: string
+          result:
+            children: null
+            type: object
+        selected: false
+        title: Input JSON Parser
+        type: code
+        variables:
+        - value_selector:
+          - '1756134717213'
+          - chatInput
+          value_type: string
+          variable: raw
+      height: 53
+      id: '1757378963304'
+      position:
+        x: 1171.0903530294736
+        y: -180.70961825051597
+      positionAbsolute:
+        x: 1171.0903530294736
+        y: -180.70961825051597
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: -369.9387620150276
+      y: 101.19811179532513
+      zoom: 0.5000000000000004

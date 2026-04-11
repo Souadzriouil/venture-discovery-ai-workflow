@@ -1,0 +1,964 @@
+{
+  "name": "Venture Discovery",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}",
+        "options": {
+          "systemMessage": "You are a web data collection agent.  \nAlways use the tool \"Search Web with SerpAPI\" to answer.  \nDo not generate text yourself.  \n\nOUTPUT RULES  \n- Return ONLY valid JSON (no explanations, no markdown).  \n- JSON array with up to 5 objects.  \n- Each object must contain:  \n  { \"url\": \"https://...\", \"title\": \"...\" }  \n- If no results are found, return: [].\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1056,
+        144
+      ],
+      "id": "e2012555-c163-40d2-8584-620ccfe4c22d",
+      "name": "Data Collection",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "serpApi",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {
+              "name": "api_key",
+              "valueProvider": "fieldValue",
+              "value": "your_api_key_here"
+            },
+            {
+              "name": "engine",
+              "valueProvider": "fieldValue",
+              "value": "google"
+            },
+            {
+              "name": "q",
+              "valueProvider": "fieldValue",
+              "value": "={{ $json.query }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1184,
+        368
+      ],
+      "id": "e5913f60-d046-467e-bee3-7630febc5a4f",
+      "name": "Search Web with SerpAPI",
+      "notesInFlow": false,
+      "credentials": {
+        "serpApi": {
+          "id": "3ZUqVGysmZhtY5fx",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        336
+      ],
+      "id": "441e6db3-8871-4c93-a76f-56def777e4f6",
+      "name": "Mistral Cloud Chat Model1",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "YeRCxRPr8cYsBqij",
+          "name": "Mistral Cloud account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1584,
+        160
+      ],
+      "id": "1fe3fc2a-f95c-4572-a1dc-563ebd2b545d",
+      "name": "HTTP Request",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $json.title }}\nContent: {{ $json.content }}\nURL: {{ $json.url }}\n",
+        "options": {
+          "systemMessage": "You are a summarization assistant.\n\nSummarize the content in 3–4 lines, and respond in this exact JSON format:\n\n{\n  \"Title\": \"[title]\",\n  \"Summary\": \"[summary]\",\n  \"URL\": \"[url]\"\n}\n\nIf Content is missing, or URL is \"unknown\", respond only with: SKIP\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        2160,
+        160
+      ],
+      "id": "eb23df82-4f05-4a64-a03f-3af0d4faef11",
+      "name": "Summarizer"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        336
+      ],
+      "id": "c26f4259-d023-48e2-910b-8a8bc9e23a97",
+      "name": "Mistral Cloud Chat Model2",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "d5vIyBH7xG8oDt4T",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title : {{ $json.Title }}\nSummary : {{ $json.Summary }}\nURL : {{ $json.URL }}\n\n",
+        "options": {
+          "systemMessage": "You are an AI agent specializing in venture discovery.\n\nYour task is to generate innovative startup ideas using article titles and summaries as inspiration. Use a mixture of ideation frameworks from the following list: Design Thinking, Blue Ocean Strategy, First Principles, SCAMPER, AI Trend Analysis, Jobs-To-Be-Done, Lean Canvas, and others relevant to early-stage venture ideation.\n\nFor each article, generate 1–3 unique startup ideas. Each idea should:\n- Be written as a one-line concise concept.\n- Include a short 3–4 sentence summary explaining its relevance and inspiration from the article.\n- Be tied to the original article's URL.\n\nReturn your response strictly in this JSON format:\n\n{\n  \"ventures\": [\n    {\n      \"id\": 1,\n      \"idea\": \"One-line venture idea\",\n      \"summary\": \"3-4 sentence description of the idea and its relevance.\",\n      \"URL\": \"original source link that inspired this idea\"\n    }\n  ]\n}\n\nOnly return valid JSON. Do not include explanations or formatting outside the JSON object.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        2992,
+        160
+      ],
+      "id": "03ba28f6-cc48-4029-a9e4-b407684aa227",
+      "name": "Generate Venture Ideas"
+    },
+    {
+      "parameters": {
+        "model": "=mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        2976,
+        336
+      ],
+      "id": "809558ad-e5c1-4580-8521-658c876e43ea",
+      "name": "Mistral Cloud Chat Model3",
+      "notesInFlow": false,
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "d5vIyBH7xG8oDt4T",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a market research analyst.\n\nCompany:\n- Name: {{ $json.company.name || \"N/A\" }}\n- Strategy: {{ $json.company.strategy || \"N/A\" }}\n- Assets: {{ $json.company.assets || \"N/A\" }}\n\n\nFocus Area: {{ $json.focus_area || \"N/A\" }}\n\n\nEstimate for this startup idea:\n- TAM (USD), SAM (USD), SOM (USD), CAGR (%), Strategic Fit (1–10)\nUse credible assumptions and mention if values are approximate (but DO NOT include them in the output).\n\nStartup Idea:\nID: {{ $json.id }}\nIdea: {{ $json.idea }}\nSummary: {{ $json.summary }}\nURL: {{ $json.URL }}\n",
+        "options": {
+          "systemMessage": "=STRICT OUTPUT RULES:\n- Return ONLY a valid JSON object (no markdown fences, no extra text).\n- Strings must be quoted.\n- Numbers must be plain numbers (no $ signs, commas, or units).\n- Use these keys exactly: id, idea, summary, TAM, SAM, SOM, CAGR, strategic_fit, URL.\n- Do not add or rename fields.\n\n{\n  \"id\": {{ $json.id }},\n  \"idea\": \"{{ $json.idea }}\",\n  \"summary\": \"{{ $json.summary }}\",\n  \"TAM\": 0,\n  \"SAM\": 0,\n  \"SOM\": 0,\n  \"CAGR\": 0,\n  \"strategic_fit\": 0,\n  \"URL\": \"{{ $json.URL }}\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        3808,
+        160
+      ],
+      "id": "a6614d10-0b4f-4f83-96ff-cdfa63e1f2f4",
+      "name": "Estimate Market Data",
+      "notesInFlow": false,
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        3824,
+        336
+      ],
+      "id": "bc34294f-3daa-461e-87a3-12e03df08412",
+      "name": "Mistral Cloud Chat Model4",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "d5vIyBH7xG8oDt4T",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        4848,
+        352
+      ],
+      "id": "1456971f-38b7-4c8c-8de9-2169cc74a829",
+      "name": "Mistral Cloud Chat Model5",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "d5vIyBH7xG8oDt4T",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a venture strategist assistant.\n\nCompany context (for tailoring only):\n- Name: {{ $json.company.name || \"N/A\" }}\n- Strategy: {{ $json.company.strategy || \"N/A\" }}\n- Assets: {{ $json.company.assets || \"N/A\" }}\n\n\nFocus Area: {{ $json.focus_area || \"N/A\" }}\n\n\nOriginal venture input (merge your \"insights\" into this object; do not change existing keys):\n{\n  \"id\": {{ $json.id }},\n  \"idea\": \"{{ $json.idea }}\",\n  \"summary\": \"{{ $json.summary }}\",\n  \"market_viability\": {{ $json.score.market_viability }},\n  \"strategic_fit\": {{ $json.score.strategic_fit}},\n  \"overall\": {{ $json.score.overall }},\n  \"URL\":{{ $json.URL }}\n}\n",
+        "options": {
+          "systemMessage": "Use the company context (from the user message) to tailor **go_to_market, justification, positioning, and differentiation**. \nDo NOT add \"company\" or \"focus_area\" as new top-level keys. \nCopy the existing fields (id, idea, summary, URL, market_viability, strategic_fit, overall) from the original venture input without altering their values.\n\nSTRICT OUTPUT RULES:\n- Return ONLY a single valid JSON object (no markdown fences, no prose).\n- Use exactly the keys shown below; do not add, remove, or rename keys.\n- Numbers must be plain numbers (no $, commas, or %); strings must be quoted.\n- \"features\" must be an array of 3–5 short strings.\n- Include citations/URLs inside \"justification\" where relevant.\n\nOUTPUT FORM (fill with the values from the original venture input and add the insights):\n{\n  \"id\": 0,\n  \"idea\": \"\",\n  \"summary\": \"\",\n  \"market_viability\": 0,\n  \"strategic_fit\": 0,\n  \"overall\": 0,\n  \"insights\": {\n    \"go_to_market\": \"\",\n    \"justification\": \"\",\n    \"value_proposition\": \"\",\n    \"features\": [\"\", \"\", \"\"],\n    \"positioning\": \"\",\n    \"differentiation\": \"\"\n  },\n  \"URL\": \"\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        4864,
+        160
+      ],
+      "id": "436eddf0-f79f-4aec-a644-d61a821ef1be",
+      "name": "Solution Insight Generation"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n// Input: each item has json.output = string that (usually) contains a JSON object with \"ventures\":[...]\n// Output: one item per venture => { json: { id, idea, summary, URL } }\n\nconst items = $input.all();\nconst out = [];\n\nfunction cleanRaw(raw) {\n  raw = String(raw ?? '');\n  // strip code fences\n  raw = raw.replace(/^\\s*```(?:json)?\\s*/i, '').replace(/\\s*```$/i, '');\n  // normalize quotes / emphasis and whitespace\n  raw = raw.replace(/\\*\\*/g, '').replace(/[“”]/g, '\"').replace(/[‘’]/g, \"'\")\n           .replace(/\\\\r/g, ' ').replace(/\\\\t/g, ' ').replace(/\\\\n/g, '\\n');\n  return raw.trim();\n}\n\nfunction resolveUrl(url, item) {\n  const u = String(url || '').trim();\n  if (!u || u.includes('{{')) {\n    return String(item.json.URL || item.json.url || '').trim();\n  }\n  return u;\n}\n\n// Fallback extractor that doesn't break on inner quotes\nfunction regexExtractObjects(raw) {\n  const ventures = [];\n  // Grab the ventures array body\n  const m = raw.match(/\"ventures\"\\s*:\\s*\\[([\\s\\S]*?)\\]\\s*}/i);\n  const body = m ? m[1] : raw; // fallback: try whole string\n\n  // Split on object boundaries (heuristic)\n  const parts = body.split(/}\\s*,\\s*{\\s*/).map(p => {\n    let s = p.trim();\n    if (!s.startsWith('{')) s = '{' + s;\n    if (!s.endsWith('}')) s = s + '}';\n    return s;\n  });\n\n  function grab(field, nextField, s) {\n    if (nextField) {\n      const rx = new RegExp(`\"${field}\"\\\\s*:\\\\s*\"(.*?)\"\\\\s*,\\\\s*\"${nextField}\"`, 'is');\n      const mm = s.match(rx);\n      return mm ? mm[1] : null;\n    } else {\n      const rx = new RegExp(`\"${field}\"\\\\s*:\\\\s*\"(.*?)\"`, 'is');\n      const mm = s.match(rx);\n      return mm ? mm[1] : null;\n    }\n  }\n\n  for (const s of parts) {\n    const id = Number((s.match(/\"id\"\\s*:\\s*(\\d+)/i) || [])[1] || '');\n    const idea = grab('idea', 'summary', s);\n    const summary = grab('summary', 'URL', s) ?? grab('summary', null, s);\n    const URL = grab('URL', null, s);\n    if (idea || summary || URL || !Number.isNaN(id)) {\n      ventures.push({ id: id || null, idea, summary, URL });\n    }\n  }\n  return ventures;\n}\n\nfor (const item of items) {\n  let raw = cleanRaw(item.json?.output ?? '');\n\n  // First try proper JSON parse\n  let ventures = [];\n  try {\n    const parsed = JSON.parse(raw);\n    if (parsed && Array.isArray(parsed.ventures)) {\n      ventures = parsed.ventures;\n    }\n  } catch {\n    // ignore, will use regex fallback\n  }\n\n  // Fallback if needed\n  if (!Array.isArray(ventures) || ventures.length === 0) {\n    ventures = regexExtractObjects(raw);\n  }\n\n  // Emit cleaned items\n  for (const v of ventures) {\n    const id = v.id != null ? Number(v.id) : null;\n    const idea = String(v.idea ?? '').replace(/\\s+/g, ' ').trim();\n    const summary = String(v.summary ?? '').replace(/\\s+/g, ' ').trim();\n    const URL = resolveUrl(v.URL, item);\n\n    if (!idea && !summary && !URL) continue; // skip empty rows\n    out.push({ json: { id, idea, summary, URL } });\n  }\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3424,
+        160
+      ],
+      "id": "085b4d57-838f-4c39-b59a-b86ee714129e",
+      "name": "Clean & Parse Ventures JSON",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nfunction get(obj, path) {\n  return path.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);\n}\n\nfunction firstDefined(...vals) {\n  for (const v of vals) if (v !== undefined && v !== null && String(v).trim() !== '') return String(v).trim();\n  return undefined;\n}\n\nfunction extractFromHtml(html) {\n  if (!html) return {};\n\n  const rx = {\n    canonical: /<link[^>]*rel=[\"']canonical[\"'][^>]*href=[\"']([^\"']+)[\"'][^>]*>/i,\n    ogUrl: /<meta[^>]*property=[\"']og:url[\"'][^>]*content=[\"']([^\"']+)[\"'][^>]*>/i,\n    twUrl: /<meta[^>]*name=[\"']twitter:url[\"'][^>]*content=[\"']([^\"']+)[\"'][^>]*>/i,\n    base: /<base[^>]*href=[\"']([^\"']+)[\"'][^>]*>/i,\n    title: /<title[^>]*>([\\s\\S]*?)<\\/title>/i,\n  };\n\n  const m = (r) => {\n    const res = html.match(r);\n    return res ? res[1].trim() : undefined;\n  };\n\n  const canonical = m(rx.canonical);\n  const og = m(rx.ogUrl);\n  const tw = m(rx.twUrl);\n  const baseHref = m(rx.base);\n  const title = m(rx.title) || 'Untitled';\n\n  // Last ditch: first absolute URL anywhere in HTML\n  let anyAbs = html.match(/https?:\\/\\/[^\\s\"'<>]+/i);\n  anyAbs = anyAbs ? anyAbs[0] : undefined;\n\n  return { canonical, og, tw, baseHref, title, anyAbs };\n}\n\nfunction resolveUrl(candidate, baseHref) {\n  try {\n    if (!candidate) return undefined;\n    // Already absolute\n    if (/^https?:\\/\\//i.test(candidate)) return candidate;\n    if (baseHref) return new URL(candidate, baseHref).toString();\n  } catch {}\n  // If we can't resolve, return as-is (may still be useful)\n  return candidate;\n}\n\nreturn items.map((item, index) => {\n  const html = firstDefined(\n    get(item, 'json.data'),\n    get(item, 'json.body'),\n    get(item, 'json.html'),\n    ''\n  );\n\n  // 1) Try structured fields from HTTP node & friends\n  let url = firstDefined(\n    get(item, 'json.url'),\n    get(item, 'url'),\n    get(item, 'json.responseUrl'),\n    get(item, 'json.request.url'),\n    get(item, 'json.request.uri.href'),\n    get(item, 'json.request.options.url'),\n    get(item, 'json.headers.content-location'),\n    get(item, 'json.config.url'),\n    get(item, 'json.finalUrl'),\n    get(item, 'json.meta.finalUrl'),\n    get(item, 'json.response.url')\n  );\n\n  // 2) Try the HTML\n  const { canonical, og, tw, baseHref, title } = extractFromHtml(html);\n  if (!url) {\n    url = firstDefined(\n      resolveUrl(canonical, baseHref),\n      resolveUrl(og, baseHref),\n      resolveUrl(tw, baseHref)\n    );\n  }\n\n  // 3) Absolute URL anywhere in HTML (very last resort)\n  if (!url) {\n    const anyAbs = extractFromHtml(html).anyAbs;\n    url = anyAbs || 'unknown';\n  }\n\n  // Clean plain text content\n  const content = String(html)\n    .replace(/<script[\\s\\S]*?>[\\s\\S]*?<\\/script>/gi, '')\n    .replace(/<style[\\s\\S]*?>[\\s\\S]*?<\\/style>/gi, '')\n    .replace(/<!--[\\s\\S]*?-->/g, '')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/\\s+/g, ' ')\n    .trim();\n\n  // Debug\n  console.log(`Item ${index + 1}:`, {\n    urlCandidate: url,\n    baseHref,\n    keys: Object.keys(item.json || {})\n  });\n\n  return {\n    json: {\n      sourceId: `src_${index + 1}`,\n      url,\n      title,\n      content,\n      timestamp: new Date().toISOString(),\n      contentLength: content.length,\n    },\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1776,
+        160
+      ],
+      "id": "3cf0f671-a7f1-4236-921b-71f9c5954e94",
+      "name": "Scrape & Normalize Page (URL/Title/Content)",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item, index) => {\n  try {\n    // Extract clean JSON from the LLM output block\n    const match = item.json.output.match(/```json([\\s\\S]*?)```/);\n    const rawJson = match ? match[1].trim() : item.json.output.trim();\n\n    const parsed = JSON.parse(rawJson);\n\n    return {\n      json: {\n        id: parsed.id,\n        idea: parsed.idea,\n        summary: parsed.summary,\n        TAM: parsed.TAM,\n        SAM: parsed.SAM,\n        SOM: parsed.SOM,\n        CAGR: parsed.CAGR,\n        strategic_fit: parsed.strategic_fit,\n        URL: parsed.URL || (parsed.source_links?.[0] ?? \"\")\n      }\n    };\n  } catch (err) {\n    return {\n      json: {\n        error: true,\n        message: `Error in item ${index + 1}: ${err.message}`,\n        raw: item.json.output\n      }\n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4144,
+        160
+      ],
+      "id": "b1237e83-fb25-419b-b1eb-174d37a36f45",
+      "name": "Extract Market Estimates (JSON Parser)",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nfunction cleanRaw(raw) {\n  raw = String(raw ?? '');\n  // strip code fences\n  raw = raw.replace(/^\\s*```(?:json)?\\s*/i, '').replace(/\\s*```$/i, '');\n  // unescape sequences and flatten newlines\n  raw = raw.replace(/\\\\r/g, ' ').replace(/\\\\t/g, ' ').replace(/\\\\n/g, ' ');\n  raw = raw.replace(/\\r?\\n/g, ' ');\n  // remove markdown ** and stray backticks\n  raw = raw.replace(/\\*\\*/g, '').replace(/`+/g, '');\n  // normalize smart quotes\n  raw = raw.replace(/[“”]/g, '\"').replace(/[‘’]/g, \"'\");\n  // remove trailing commas before } ]\n  raw = raw.replace(/,\\s*([}\\]])/g, '$1');\n  // collapse spaces\n  return raw.replace(/\\s{2,}/g, ' ').trim();\n}\n\nfunction safeParse(raw) {\n  try { return JSON.parse(raw); } catch {}\n  const r2 = cleanRaw(raw);\n  try { return JSON.parse(r2); } catch {}\n  return null;\n}\n\nfunction num(x, fb = 0) {\n  const n = Number(x);\n  return Number.isFinite(n) ? n : fb;\n}\n\nfunction round1(x) {\n  return Number(num(x).toFixed(1));\n}\n\nconst out = [];\n\nfor (const [idx, item] of items.entries()) {\n  // Accept either { output: \"...json...\" } or a direct JSON object\n  let raw = item.json?.output ?? item.json ?? '{}';\n  raw = cleanRaw(raw);\n  const parsed = safeParse(raw);\n\n  if (!parsed || typeof parsed !== 'object') {\n    out.push({\n      json: {\n        error: true,\n        note: 'Failed to parse JSON from LLM output.',\n        preview: String(item.json?.output ?? '').slice(0, 500)\n      }\n    });\n    continue;\n  }\n\n  // ---------- Insights (accept nested or top-level) ----------\n  const ins = parsed.insights || {};\n  const insights = {\n    go_to_market: ins.go_to_market ?? parsed.go_to_market ?? '',\n    justification: ins.justification ?? parsed.justification ?? '',\n    value_proposition: ins.value_proposition ?? parsed.value_proposition ?? '',\n    features: Array.isArray(ins.features) ? ins.features\n            : Array.isArray(parsed.features) ? parsed.features : [],\n    positioning: ins.positioning ?? parsed.positioning ?? '',\n    differentiation: ins.differentiation ?? parsed.differentiation ?? ''\n  };\n\n  // ---------- Scores (prefer new schema; support top-level; fallback to legacy) ----------\n  const newScore = parsed.score ?? item.json?.score ?? {};\n\n  // Legacy breakdowns that may exist (market_size / market_growth / strategic_fit)\n  const oldSize = parsed.score_breakdown?.market_size\n               ?? item.json?.score_breakdown?.market_size\n               ?? parsed.market_size ?? item.json?.market_size;\n  const oldGrowth = parsed.score_breakdown?.market_growth\n                 ?? item.json?.score_breakdown?.market_growth\n                 ?? parsed.market_growth ?? item.json?.market_growth;\n  const oldFit = parsed.score_breakdown?.strategic_fit\n              ?? item.json?.score_breakdown?.strategic_fit;\n\n  // market_viability (new: check score.market_viability, then top-level, then compute from legacy)\n  let market_viability =\n      newScore.market_viability ??\n      parsed.market_viability ??\n      item.json?.market_viability;\n\n  if (!Number.isFinite(market_viability)) {\n    if (Number.isFinite(oldSize) || Number.isFinite(oldGrowth)) {\n      market_viability = 0.7 * num(oldSize) + 0.3 * num(oldGrowth);\n    }\n  }\n  market_viability = round1(market_viability);\n\n  // strategic_fit (check score.strategic_fit, then top-level, then legacy)\n  let strategic_fit =\n      newScore.strategic_fit ??\n      parsed.strategic_fit ??\n      item.json?.strategic_fit ??\n      oldFit ?? 0;\n  strategic_fit = Math.max(0, Math.min(num(strategic_fit), 10));\n\n  // overall (check score.overall, then top-level, else compute, else fallback to feasibility_score)\n  let overall =\n      newScore.overall ??\n      parsed.overall ??\n      item.json?.overall;\n\n  if (!Number.isFinite(overall)) {\n    if (Number.isFinite(market_viability) && Number.isFinite(strategic_fit)) {\n      overall = 0.7 * num(market_viability) + 0.3 * num(strategic_fit);\n    } else {\n      overall = parsed.feasibility_score ?? item.json?.feasibility_score ?? 0;\n    }\n  }\n  overall = Math.max(0, Math.min(round1(overall), 10));\n\n  const result = {\n    id: parsed.id ?? item.json?.id ?? idx + 1,\n    idea: parsed.idea ?? item.json?.idea ?? '',\n    summary: parsed.summary ?? item.json?.summary ?? '',\n    score: {\n      market_viability,\n      strategic_fit,\n      overall\n    },\n    insights,\n    URL: parsed.URL ?? parsed.url ?? item.json?.URL ?? ''\n  };\n\n  out.push({ json: result });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5392,
+        160
+      ],
+      "id": "844d4de1-fbe1-40f8-b662-4b894876d72d",
+      "name": "Normalizer Ventures (Parse + Merge)",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "# 🧠 Query Expansion\n## **This phase generates 8-10 highly specific queries from the user’s input.**\n\n**It enhances the breadth and relevance of evidence collection by generating focused sub-queries from the initial user input before retrieval begins.**\n",
+        "height": 624,
+        "width": 1040,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        -80
+      ],
+      "id": "75175088-6b4a-41a8-97a9-28499747efe3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        160,
+        352
+      ],
+      "id": "728d368e-ae17-41da-b128-6f476064a74a",
+      "name": "Mistral Cloud Chat Model",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "YeRCxRPr8cYsBqij",
+          "name": "Mistral Cloud account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate 5 focused search queries based on this topic: {{ $json.body.focus_area}}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        176,
+        144
+      ],
+      "id": "57abda74-ce8f-4a23-aaa2-5a6d04950567",
+      "name": "Query Expansion Phase",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst out = [];\nlet globalId = 1;\n\nfunction extractQueries(text) {\n  text = String(text || '');\n\n  // Strip code fences and unescape newlines\n  text = text.replace(/^\\s*```(?:json)?\\s*/i, '').replace(/\\s*```$/i, '');\n  text = text.replace(/\\\\n/g, '\\n').replace(/\\r/g, '');\n  // Remove markdown bold and normalize quotes\n  text = text.replace(/\\*\\*/g, '').replace(/[“”]/g, '\"').replace(/[‘’]/g, \"'\");\n\n  // Primary: capture numbered lines like \"1. Best Level 2 EV charging...\"\n  const queries = [];\n  const lines = text.split('\\n').map(l => l.trim()).filter(Boolean);\n  for (const line of lines) {\n    const m = line.match(/^\\s*\\d+\\.\\s*(.+)$/);\n    if (!m) continue;\n\n    // Keep only the main query part (drop explanations after hyphens/dashes)\n    let q = m[1]\n      .split(' - ')[0]\n      .split(' — ')[0]\n      .split(' – ')[0]\n      .trim();\n\n    // Drop surrounding quotes and trailing period\n    q = q.replace(/^\"(.*)\"$/, '$1').replace(/^'(.*)'$/, '$1').replace(/\\.$/, '').trim();\n\n    if (q) queries.push(q);\n  }\n\n  // Fallback: regex scan if no lines matched (handles one-line blobs)\n  if (queries.length === 0) {\n    const rx = /\\d+\\.\\s*(?:[\"*]{0,2})([^\"*]+?)(?:[\"*]{0,2})(?=\\s*(?:-|—|–|\\n|$))/g;\n    let m;\n    while ((m = rx.exec(text)) !== null) {\n      const q = m[1].trim().replace(/\\.$/, '');\n      if (q) queries.push(q);\n    }\n  }\n\n  // Dedup + limit to 5\n  return [...new Set(queries)].slice(0, 10);\n}\n\nfor (const item of items) {\n  const raw = item.json?.output ?? item.json ?? '';\n  const queries = extractQueries(raw);\n\n  if (queries.length === 0) {\n    out.push({ json: { error: 'No queries found', preview: String(raw).slice(0, 200) } });\n    continue;\n  }\n\n  for (const q of queries) {\n    out.push({ json: { id: globalId++, query: q } });\n  }\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        144
+      ],
+      "id": "7415a451-bea9-4183-b18c-9064b2323f05",
+      "name": "Query List Cleaner",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## 🔍 Data Collection  \n\n## **This workflow automates market data collection using SerpAPI and HTTP requests.**  \n\n**It retrieves search results, extracts target URLs, and fetches raw content from trusted sources. This ensures broad coverage across different domains and report sections.**\n",
+        "height": 624,
+        "width": 1136,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -80
+      ],
+      "id": "d5c40f02-2f35-4f2f-8769-f4ef627c4081",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst results = [];\n\nfor (const item of items) {\n  try {\n    // Supprime les délimiteurs Markdown et espaces\n    const raw = item.json.output\n      .replace(/^```json/, '')\n      .replace(/```$/, '')\n      .trim();\n\n    // Parse en JSON réel\n    const parsed = JSON.parse(raw);\n\n    // Extraire uniquement les URLs\n    parsed.forEach(link => {\n      results.push({ json: { url: link.url } });\n    });\n\n  } catch (err) {\n    results.push({\n      json: {\n        error: 'Parsing error',\n        details: err.message,\n        original: item.json.output\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1392,
+        144
+      ],
+      "id": "7e8e5ae6-357b-4182-abe2-937b22a8ad9a",
+      "name": "Get URL",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst out = [];\n\nfunction clean(raw) {\n  raw = String(raw ?? '').trim();\n  // strip code fences if present\n  raw = raw.replace(/^\\s*```(?:json)?\\s*/i, '').replace(/\\s*```$/i, '');\n  // unescape sequences if the JSON is double-encoded\n  raw = raw.replace(/\\\\r/g, ' ').replace(/\\\\t/g, ' ').replace(/\\\\n/g, ' ');\n  // collapse whitespace\n  raw = raw.replace(/\\s{2,}/g, ' ').trim();\n  return raw;\n}\n\nfor (const item of items) {\n  let raw = item.json?.output;\n  if (raw == null) continue;\n\n  // Skip explicit SKIP outputs (in any casing or quoted)\n  const rawTrim = String(raw).trim();\n  if (rawTrim === 'SKIP' || rawTrim === '\"SKIP\"' || rawTrim.toUpperCase() === 'SKIP') continue;\n\n  raw = clean(raw);\n\n  let obj = null;\n  try {\n    obj = JSON.parse(raw);\n  } catch {\n    // Fallback: try to extract fields with regex if not valid JSON\n    const Title = raw.match(/\"Title\"\\s*:\\s*\"([^\"]*)\"/)?.[1];\n    const Summary = raw.match(/\"Summary\"\\s*:\\s*\"([^\"]*)\"/)?.[1];\n    const URL = raw.match(/\"URL\"\\s*:\\s*\"([^\"]*)\"/)?.[1];\n    if (Title || Summary || URL) obj = { Title, Summary, URL };\n  }\n\n  if (!obj) continue; // silently drop unparsable items\n\n  const Title = String(obj.Title ?? 'Untitled').trim();\n  const Summary = String(obj.Summary ?? '').trim();\n  const URL = String(obj.URL ?? '').trim();\n\n  // If nothing meaningful, drop\n  if (!Title && !Summary && !URL) continue;\n\n  out.push({ json: { Title, Summary, URL } });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2528,
+        160
+      ],
+      "id": "668c6044-da3e-487f-ab44-544ce9402b87",
+      "name": "JSON Cleaner & Parser",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI Summarization  \n\n## **Raw content is summarized into concise insights and converted into clean JSON.**  \n\n**This step ensures the information is consistent, structured, and ready for the next stage.**\n",
+        "height": 624,
+        "width": 832,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        -80
+      ],
+      "id": "bee84775-7c7a-4277-b767-42b3eb29eb7b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## 🚀 Venture Ideation  \n\n## **Article insights are transformed into new startup ideas.**  \n\n**This step generates innovative venture concepts, then cleans and structures them into JSON for further analysis.**\n",
+        "height": 608,
+        "width": 816,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2912,
+        -80
+      ],
+      "id": "0436068e-1233-47f6-ace3-351ba9e03672",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## 🧮 Feasibility Scoring  \n## This phase evaluates the viability of each venture using **market-based criteria**.\n\nIt integrates **TAM, SAM, SOM, CAGR, and Strategic Fit** into composite metrics: **Market Viability** (size + growth), **Strategic Fit** (alignment), and an **Overall Score** (0–10 index). The pipeline then filters ventures with **Overall ≥ 7** and selects the **Top 10** for further analysis.  \n\n",
+        "height": 608,
+        "width": 976,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3760,
+        -80
+      ],
+      "id": "4e1fe899-5247-4433-95a1-9df3d53456fa",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## 💡 Solution Insight \n## **This phase enriches shortlisted ventures with strategic insights for deeper evaluation.**\n\nIt generates tailored **go-to-market strategies, value propositions, feature sets, positioning, and differentiation**.  \nAll outputs are normalized into a structured **JSON schema**, ensuring consistency and readiness for downstream analysis.  \n",
+        "height": 592,
+        "width": 992,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4752,
+        -80
+      ],
+      "id": "daa7d88f-da2f-4d29-8700-e796f89d5f9d",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## ⚪ White-Space Analysis  \n## **This phase detects unmet market gaps and assesses company fit.**\n\nIt compares each venture’s value proposition against competitors and aligns it with organizational capabilities, producing structured outputs for **market gap** and **company fit**.  \n",
+        "height": 592,
+        "width": 784,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5824,
+        -80
+      ],
+      "id": "6e7886f5-c2b0-407f-aa17-be6677956abe",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map((item, idx) => {\n  let parsed;\n  try {\n    const raw = typeof item.json?.output === 'string'\n      ? item.json.output\n      : JSON.stringify(item.json?.output ?? {});\n    parsed = JSON.parse(raw);\n  } catch (e) {\n    return {\n      json: {\n        error: \"Failed to parse output\",\n        raw_output: item.json?.output\n      }\n    };\n  }\n\n  const data = parsed || {};\n  const insights = data.insights || {};\n  const whiteSpace = data.white_space_analysis || {};\n\n  return {\n    json: {\n      id: idx + 1, // sequential IDs: 1,2,3,...\n      idea: data.idea,\n      summary: data.summary,\n      score: {\n        market_viability: data.score?.market_viability ?? \"N/A\",\n        strategic_fit: data.score?.strategic_fit ?? \"N/A\",\n        overall: data.score?.overall ?? \"N/A\"\n      },\n      insights: {\n        go_to_market: insights.go_to_market || \"N/A\",\n        justification: insights.justification || \"N/A\",\n        value_proposition: insights.value_proposition || \"N/A\",\n        features: Array.isArray(insights.features) ? insights.features : [],\n        positioning: insights.positioning || \"N/A\",\n        differentiation: insights.differentiation || \"N/A\"\n      },\n      white_space_analysis: {\n        market_gap: whiteSpace.market_gap || \"N/A\",\n        company_fit: whiteSpace.company_fit || \"N/A\"\n      },\n      URL: data.URL || data.url || \"N/A\"\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6272,
+        112
+      ],
+      "id": "5b93f11a-5c39-47ad-ab90-e4ee6ee50c70",
+      "name": "Final Output Parser",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "function scoreTAM(tam) {\n  if (tam < 1_000_000_000) return 0;\n  if (tam < 3_000_000_000) return 2;\n  if (tam < 10_000_000_000) return 5;\n  if (tam < 50_000_000_000) return 7;\n  return 9;\n}\n\nfunction scoreCAGR(cagr) {\n  if (cagr < 5) return 1;\n  if (cagr < 10) return 3;\n  if (cagr < 20) return 6;\n  if (cagr < 35) return 8;\n  return 10;\n}\n\nreturn items.map(item => {\n  const tam  = Number(item.json.TAM) || 0;\n  const cagr = Number(item.json.CAGR) || 0;\n  const fit  = Number(item.json.strategic_fit) || 0;\n\n  const score_market_size   = scoreTAM(tam);\n  const score_market_growth = scoreCAGR(cagr);\n  const score_fit           = Math.max(0, Math.min(fit, 10));\n\n  // new metric: market_viability\n  const market_viability = Number((0.7 * score_market_size + 0.3 * score_market_growth).toFixed(1));\n\n  // new metric: overall\n  const overall = Number((0.7 * market_viability + 0.3 * score_fit).toFixed(1));\n\n  return {\n    json: {\n      id: item.json.id,\n      idea: item.json.idea,\n      summary: item.json.summary,\n      URL: item.json.URL,\n      score: {\n        market_viability: market_viability,\n        strategic_fit: score_fit,\n        overall: overall\n      }\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4336,
+        160
+      ],
+      "id": "c6cec281-896c-4845-95b8-89600a218909",
+      "name": "computeScores",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst top10 = items\n  .map(({ json }) => {\n    const score = Number(json.score?.overall) || 0;\n    return { json, score };\n  })\n  .filter(({ score }) => score >= 5)          // keep only overall >= 7\n  .sort((a, b) => b.score - a.score)          // sort descending\n  .slice(0, 10)                               // take top 10\n  .map(({ json }) => {\n    // no need to remove feasibility_score anymore, just return json\n    return { json };\n  });\n\nreturn top10;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4560,
+        160
+      ],
+      "id": "172806a8-471f-4d83-8c28-efa7333aafa8",
+      "name": "selectTopIdeas",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": "mistral-small-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        5936,
+        304
+      ],
+      "id": "57b35a35-304c-44a8-b5f2-63c360398094",
+      "name": "Mistral Cloud Chat Model7",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "d5vIyBH7xG8oDt4T",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=q",
+              "value": "={{ $json[\"query\"] }}"
+            },
+            {
+              "name": "engine",
+              "value": "google"
+            },
+            {
+              "name": "api_key",
+              "value": "your_api_key_here"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        6112,
+        320
+      ],
+      "id": "4d52a7b8-bed3-453a-8894-e69a135f8516",
+      "name": "Search Competitors1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a strategic venture analyst.\n\nCompany context:\n- Name: {{ $json.company.name || \"N/A\" }}\n- Strategy: {{ $json.company.strategy || \"N/A\" }}\n- Assets: {{ $json.company.assets || \"N/A\" }}\n\nFocus Area: {{ $json.focus_area || \"N/A\" }}\n\n\nHere is the venture object (do not change its existing fields; you may update URL only if you find a stronger single supporting link):\n{{ JSON.stringify($json, null, 2) }}\n\nYour task:\n1) Use the web search tool to find competitors or very similar offerings. If this item has no \"query\" field, assume the query is: \"{{ $json.idea }} competitors\".\n2) Compare this venture’s value proposition to (a) gaps in the market and (b) the company capabilities above.\n3) Return ONE JSON object by copying the original fields and appending the key \"white_space_analysis\" as shown in the output form.\n",
+        "options": {
+          "systemMessage": "STRICT OUTPUT RULES:\n- Output ONE valid JSON object only (no markdown, no prose).\n- Keep original fields and values exactly as given (id, idea, summary, URL, score_breakdown, insights). You may update \"URL\" only if you found a better single supporting source.\n- Add exactly one new key: \"white_space_analysis\" with \"market_gap\" and \"company_fit\".\n- Strings must be quoted; numbers must be plain.\n- If the web tool fails, still produce the analysis using available info and keep the original URL.\n\nOUTPUT FORM (fill with the venture's existing values and your analysis):\n{\n  \"id\": {{ $json.id }},\n  \"idea\": \"{{ $json.idea }}\",\n  \"summary\": \"{{ $json.summary }}\",\n  \"score\": {{ JSON.stringify($json.score, null, 2) }},\n  \"insights\": {{ JSON.stringify($json.insights, null, 2) }},\n  \"white_space_analysis\": {\n    \"market_gap\": \"\",\n    \"company_fit\": \"\"\n  },\n  \"URL\": \"{{ $json.URL }}\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        5936,
+        128
+      ],
+      "id": "9957b3bd-8daf-4b58-bf90-c65733979458",
+      "name": "White-Space Analysis"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "db8cd195-3bad-476e-ba64-eab9fc1c686f",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        160
+      ],
+      "id": "0178932b-c440-4a56-9d0c-5cef555e2370",
+      "name": "Webhook",
+      "webhookId": "db8cd195-3bad-476e-ba64-eab9fc1c686f"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        6736,
+        160
+      ],
+      "id": "9a6ca6f9-ce4b-4bb5-8fe2-670356d69d80",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Data Collection": {
+      "main": [
+        [
+          {
+            "node": "Get URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Web with SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "Data Collection",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Data Collection",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Scrape & Normalize Page (URL/Title/Content)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarizer": {
+      "main": [
+        [
+          {
+            "node": "JSON Cleaner & Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarizer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Venture Ideas": {
+      "main": [
+        [
+          {
+            "node": "Clean & Parse Ventures JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Venture Ideas",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estimate Market Data": {
+      "main": [
+        [
+          {
+            "node": "Extract Market Estimates (JSON Parser)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Estimate Market Data",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Solution Insight Generation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solution Insight Generation": {
+      "main": [
+        [
+          {
+            "node": "Normalizer Ventures (Parse + Merge)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean & Parse Ventures JSON": {
+      "main": [
+        [
+          {
+            "node": "Estimate Market Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape & Normalize Page (URL/Title/Content)": {
+      "main": [
+        [
+          {
+            "node": "Summarizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Market Estimates (JSON Parser)": {
+      "main": [
+        [
+          {
+            "node": "computeScores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizer Ventures (Parse + Merge)": {
+      "main": [
+        [
+          {
+            "node": "White-Space Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Query Expansion Phase",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Expansion Phase": {
+      "main": [
+        [
+          {
+            "node": "Query List Cleaner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query List Cleaner": {
+      "main": [
+        [
+          {
+            "node": "Data Collection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get URL": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Cleaner & Parser": {
+      "main": [
+        [
+          {
+            "node": "Generate Venture Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Final Output Parser": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "computeScores": {
+      "main": [
+        [
+          {
+            "node": "selectTopIdeas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "selectTopIdeas": {
+      "main": [
+        [
+          {
+            "node": "Solution Insight Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "White-Space Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Competitors1": {
+      "ai_tool": [
+        [
+          {
+            "node": "White-Space Analysis",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "White-Space Analysis": {
+      "main": [
+        [
+          {
+            "node": "Final Output Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Query Expansion Phase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "541f5e79-c827-46e5-98eb-b836a3367bdd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e09e7f318c74704d9def41f7b970d177308cfa32565839ef206862c61efe0630"
+  },
+  "id": "ofnzs4CbkuqvS291",
+  "tags": []
+}
