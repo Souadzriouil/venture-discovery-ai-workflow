@@ -1,142 +1,188 @@
-# 🚀 Venture Discovery AI Workflow
+# 🚀 Venture Discovery AI System
 
 ## 📌 Overview
 
-This project presents an **AI-powered Venture Discovery Pipeline** designed to automate the process of **generating, analyzing, and evaluating startup ideas** using Large Language Models (LLMs) and Low-Code/No-Code (LCNC) platforms.
+This project presents a **full-stack AI system** for automated **venture discovery**, combining:
 
-Developed as part of a **Master’s Thesis in Artificial Intelligence**, this system aims to democratize access to AI-driven business insights for entrepreneurs, startups, and innovation teams.
+- 🤖 Large Language Models (LLMs)
+- 🔄 Multi-agent reasoning (CrewAI)
+- ⚙️ Low-code / no-code workflows (n8n, Dify, RAGFlow)
+- 🖥️ Interactive frontend (React)
 
-📄 Full Thesis: [Download Report](./Rapport_MFE.pdf)
+The system automates the process of **generating, analyzing, and evaluating startup ideas**, transforming raw market data into **actionable business insights**.
+
+📄 Full Thesis: [Download Report](report/Rapport_MFE.pdf)
 
 ---
 
 ## 🎯 Problem Statement
 
-Venture discovery is a **complex and resource-intensive process** that requires:
-
-- Market research  
-- Competitor analysis  
-- Feasibility evaluation  
-
-Traditional approaches are:
+Venture discovery is traditionally:
 
 - ❌ Time-consuming  
-- ❌ Require strong expertise  
+- ❌ Requires strong expertise  
 - ❌ Not accessible to non-technical users  
 
-➡️ This project proposes an **end-to-end AI workflow** that automates and simplifies this process using low-code / no-code tools.
+This project addresses these challenges by building an **end-to-end AI pipeline** that:
+
+- Automates market research  
+- Generates startup ideas  
+- Evaluates feasibility  
+- Identifies market opportunities  
 
 ---
 
-## 🧠 Project Objectives
+## 🧠 System Architecture
 
-- Generate innovative startup ideas using AI  
-- Automate **market research and data collection**  
-- Evaluate ideas using structured metrics (TAM, growth, etc.)  
-- Rank and prioritize business opportunities  
-- Identify **market gaps (white space)**  
-- Provide actionable **business insights**  
-- Enable usage through **low-code / no-code platforms**
+### 🔵 n8n Workflow
+![n8n](docs/n8n_pipeline.png)
 
 ---
 
-## ⚙️ System Architecture
+### 🟣 RAGFlow Workflow
+![ragflow](docs/ragflow_pipeline.png)
 
-<img width="768" height="746" alt="pipeline" src="https://github.com/user-attachments/assets/a1a1eb43-ea49-4d79-b8e1-8d825d03e41a" />
+---
 
+### 🟢 Dify Workflow
+![dify](docs/dify_pipeline.png)
 
-### 🔹 Pipeline Steps
+---
+
+## ⚙️ How the System Works
 
 1. **User Input**
-   - Define industry or domain
-   - Optional company context
+   - Define focus area (industry/domain)
+   - Optional company context  
 
 2. **Query Expansion**
-   - Generate optimized search queries using LLMs
+   - Generate optimized search queries using LLMs  
 
-3. **Web Search & Data Retrieval**
-   - Collect market trends, competitors, and insights
+3. **Data Collection**
+   - Retrieve web data (trends, competitors, insights)  
 
 4. **Summarization**
-   - Convert raw data into structured knowledge
+   - Convert raw content into structured knowledge  
 
 5. **Idea Generation**
-   - Generate multiple startup ideas
+   - Generate startup ideas using AI  
 
-6. **Feasibility Scoring**
-   - Evaluate ideas using:
+6. **Market Evaluation**
+   - Estimate:
      - TAM / SAM / SOM  
-     - Growth potential (CAGR)  
+     - Growth potential  
      - Strategic fit  
 
-7. **Solution Insights**
+7. **Scoring & Ranking**
+   - Rank ventures based on feasibility  
+
+8. **Solution Insights**
    - Value proposition  
    - Key features  
    - Go-to-market strategy  
 
-8. **White-Space Analysis**
+9. **White-Space Analysis**
    - Identify market gaps  
    - Compare competitors  
 
-9. **Final Output**
-   - Structured JSON with ranked ideas and insights  
+10. **Final Output**
+   - Structured JSON with ranked opportunities  
 
 ---
 
-## 🧩 Platforms Used
+## 🧩 Technologies & Platforms
 
-The system was implemented and evaluated across multiple platforms:
+### 🔹 Backend (AI System)
+- Python  
+- CrewAI (multi-agent orchestration)  
+- FastAPI  
+- LLM APIs (Mistral / OpenAI)  
 
-- 🔗 **n8n** → Workflow orchestration  
-- 🔗 **RAGFlow** → Retrieval & knowledge grounding  
-- 🔗 **Dify** → Prompt management & evaluation  
-- 🔗 **CrewAI** → Multi-agent reasoning  
+### 🔹 Frontend
+- React (Vite)  
+- Interactive UI  
 
-Each platform provides different trade-offs between performance, usability, and scalability.
-
----
-
-## 🧪 Evaluation Approach
-
-### 🔹 Quantitative Metrics
-- Latency  
-- Token usage  
-- Workflow complexity  
-- JSON validity  
-
-### 🔹 Qualitative Metrics
-- Accessibility  
-- Stability  
-- Ecosystem maturity  
-
-📊 Results show that **no single platform is universally optimal** — the choice depends on the use case and technical requirements.
+### 🔹 Workflow Platforms
+- n8n → automation pipeline  
+- Dify → LLM orchestration & evaluation  
+- RAGFlow → retrieval-augmented workflows  
 
 ---
 
-## 🚀 Features
+## 🖥️ Run the Project
 
-- ✅ AI-powered startup idea generation  
-- ✅ Automated market research  
-- ✅ Multi-agent reasoning workflows  
-- ✅ Feasibility scoring system  
-- ✅ White-space analysis  
-- ✅ Structured JSON output  
-- ✅ Low-code / no-code implementation  
+### 🔹 1. Clone repository
+
+```bash
+git clone https://github.com/Souadzriouil/venture-discovery-ai-workflow.git
+cd venture-discovery-ai-workflow
+```
 
 ---
+
+### 🔹 2. Run Backend (CrewAI)
+
+```bash
+cd crewai-backend
+pip install -r requirements.txt
+uvicorn api:app --reload
+```
+
+---
+
+### 🔹 3. Run Frontend (React)
+
+```bash
+cd crewai-backend/venture-ui
+npm install
+npm run dev
+```
+
+👉 Open:
+```
+http://localhost:5173
+```
+
+---
+
 ## 📊 Example Output
 
-Here is a sample output generated by the system:
-<img width="770" height="447" alt="n8noutput" src="https://github.com/user-attachments/assets/eea7e14a-f300-4c39-8fee-8bef70573352" />
+The system generates structured venture insights including:
 
+- Feasibility score  
+- Market size  
+- Growth potential  
+- Strategic fit  
+- Business insights  
 
 ---
-## ▶️ How to Run
 
-### 1. Clone the repository
+## 🚀 Key Features
 
-git clone https://github.com/Souadzriouil/venture-discovery-ai-workflow.git  
-cd venture-discovery-ai-workflow  
+- ✅ Multi-agent AI reasoning  
+- ✅ Automated web data collection  
+- ✅ AI-powered startup idea generation  
+- ✅ Market analysis (TAM, growth, fit)  
+- ✅ White-space opportunity detection  
+- ✅ Cross-platform implementation  
+- ✅ Full-stack system (frontend + backend)  
+
+---
+
+## 🧪 Evaluation
+
+### 🔹 Quantitative
+- Token usage  
+- Latency  
+- Workflow complexity  
+
+### 🔹 Qualitative
+- Usability  
+- Stability  
+- Flexibility  
+
+📊 Result:  
+No single platform is universally optimal — each platform offers trade-offs depending on the use case.
 
 ---
 
@@ -144,8 +190,15 @@ cd venture-discovery-ai-workflow
 
 - 💡 Startup idea generation  
 - 📊 Market opportunity analysis  
-- 🧠 AI-driven business strategy  
+- 🧠 Business strategy support  
 - 🚀 Innovation automation  
+
+---
+
+## ⚠️ Note
+
+API keys are not included for security reasons.  
+Replace `your_api_key_here` with your own credentials before running the project.
 
 ---
 
@@ -156,10 +209,10 @@ AI Engineer | Data Scientist | Machine Learning | NLP | LLM
 
 📍 Settat, Morocco  
 📧 souadzriouil02@gmail.com  
-🔗 LinkedIn: www.linkedin.com/in/souad-zriouil-54b19b267  
+🔗 https://www.linkedin.com/in/souad-zriouil-54b19b267  
 
 ---
 
 ## ⭐ Support
 
-If you like this project, don’t forget to ⭐ the repository!
+If you found this project useful, feel free to ⭐ the repository!
