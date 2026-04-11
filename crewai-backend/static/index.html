@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Venture Discovery — Multi-Agent Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="data:,">
+  <style>
+    :root { --bg:#0b1020; --card:#121933; --text:#e8ecff; --muted:#aab4e6; --accent:#6ea8ff; --ok:#34d399; --err:#f87171; }
+    *{box-sizing:border-box}
+    body{margin:0;padding:24px;background:linear-gradient(180deg,#0b1020,#0b1020 60%,#0e1430);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    h1{margin:0 0 16px;font-size:24px}
+    .wrap{max-width:1100px;margin:0 auto}
+    .panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 16px 8px}
+    .row{display:grid;grid-template-columns:1fr 1fr 140px;gap:12px}
+    label{display:block;font-size:12px;color:var(--muted);margin:8px 0 6px}
+    input{width:100%;padding:10px 12px;background:#0d1430;color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:10px;outline:none}
+    input::placeholder{color:#7f8bc9}
+    button{height:40px;border:0;background:linear-gradient(180deg,#2a6fff,#1751f0);color:white;border-radius:10px;font-weight:600;cursor:pointer}
+    button[disabled]{opacity:.6;cursor:not-allowed}
+    .meta{display:flex;gap:16px;align-items:center;color:var(--muted);font-size:12px;margin-top:6px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:16px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+    .card h3{margin:0;font-size:16px}
+    .tag{display:inline-block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:3px 8px;font-size:11px;color:#cfe0ff}
+    .rowline{display:flex;flex-wrap:wrap;gap:8px}
+    .url a{color:var(--accent);text-decoration:none}
+    .status{margin-top:10px;font-size:13px}
+    .ok{color:var(--ok)} .err{color:var(--err)}
+    .footer{opacity:.7;font-size:12px;margin-top:20px}
+    .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .9s linear infinite;vertical-align:-3px;margin-right:6px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Venture Discovery — Multi-Agent</h1>
+    <div class="panel">
+      <div class="row">
+        <div>
+          <label for="focus">Focus area</label>
+          <input id="focus" type="text" placeholder="Electric vehicle market in Europe"
+                 value="Electric vehicle market in Europe" />
+        </div>
+        <div>
+          <label for="company">Company</label>
+          <input id="company" type="text" placeholder="ACME Europe" value="ACME Europe" />
+        </div>
+        <div>
+          <label for="num"># of ideas (1–20)</label>
+          <input id="num" type="number" min="1" max="20" value="5" />
+        </div>
+      </div>
+      <div class="meta">
+        <button id="go">Discover ventures</button>
+        <div id="status" class="status"></div>
+      </div>
+    </div>
+
+    <div id="results" class="grid"></div>
+    <div class="footer">Tip: hard-refresh (Ctrl+F5) if the browser cached old JS.</div>
+  </div>
+
+  <script src="app.js?v=2"></script>
+</body>
+</html>

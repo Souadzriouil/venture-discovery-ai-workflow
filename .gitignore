@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+*.sqlite
+
+# Node
+node_modules/
+dist/
+
+# Outputs
+outputs/
+
+# CrewAI specific
+crewai-backend/venv/
+crewai-backend/__pycache__/
