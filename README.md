@@ -207,9 +207,8 @@ Replace `your_api_key_here` with your own credentials before running the project
 **Souad Zriouil**  
 AI Engineer | Data Scientist | Machine Learning | NLP | LLM  
 
-📍 Settat, Morocco  
-📧 souadzriouil02@gmail.com  
-🔗 https://www.linkedin.com/in/souad-zriouil-54b19b267  
+[![GitHub](https://img.shields.io/badge/GitHub-Souadzriouil-black?logo=github)](https://github.com/Souadzriouil)
+
 
 ---
 
